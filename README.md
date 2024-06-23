@@ -1,8 +1,8 @@
-# Formulário ReactJS
+# Consulta Tabela FIPE ReactJS
 
 ## 🚀 Funcionalidades
 
-Formulário para exibir os dados enviados na tabela ao lado com validação no campo CPF.
+Formulário para escolher o tipo do veículo a ser consultado (Carro, Moto, Caminhões), seguido de Marca, Modelo e Ano do veículo (todas as seleções já consultado a API da Tabela FIPE), após selecionado, clicar no botão "Consulta FIPE" para visualizar o valor do veículo!
 
 ### 📋 Pré-requisitos
 
