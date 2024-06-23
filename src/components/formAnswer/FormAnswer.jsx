@@ -6,27 +6,46 @@ const FormAnswer = (props) => {
 		<div className="app2">
 			<table>
 				<tr>
-					<td>Nome: <p id="name"> {props._name} </p> </td>
+					<td id="name"> Tipo de Veículo: 
+						<b>
+						{   (props.typeCar) === 1 ? " Carro" 
+					 		: (props.typeCar) === 2 ? " Moto" 
+					 		: (props.typeCar) === 3 ? " Caminhão" : ""
+				 		}
+						</b>
+				 </td>
 				</tr>
 				<tr></tr><tr></tr>
 				<tr>
-					<td>Idade: <p id="age"> {props._age} </p> </td>
+					<td id="age">Valor: <b>{props.amount}</b> </td>
 				</tr>
 				<tr></tr><tr></tr>
 				<tr>
-					<td>Sexo: <p id="gender"> {props._gender} </p> </td>
+					<td id="gender">Marca: <b>{props.brand}</b> </td>
 				</tr>
 				<tr></tr><tr></tr>
 				<tr>
-					<td>Estado Civil: <p id="civilStatus"> {props._civilStatus} </p> </td>
+					<td id="civilStatus">Modelo: <b>{props.model}</b> </td>
 				</tr>
 				<tr></tr><tr></tr>
 				<tr>
-					<td>Tipo de Documento: <p id="documentType"> {props._docType} </p> </td>
+					<td id="documentType">Ano/Modelo: <b>{props.yearModel}</b> </td>
 				</tr>
 				<tr></tr><tr></tr>
 				<tr>
-					<td>CPF/CNPJ: <p id="document"> {props._document}</p> </td>
+					<td id="document">Combustível: <b>{props.fuel}</b> </td>
+				</tr>
+				<tr></tr><tr></tr>
+				<tr>
+					<td id="document">Código FIPE: <b>{props.codFipe}</b> </td>
+				</tr>
+				<tr></tr><tr></tr>
+				<tr>
+					<td id="document">Mês de Referência: <b>{props.refMonth}</b> </td>
+				</tr>
+				<tr></tr><tr></tr>
+				<tr>
+					<td id="document">Sigla Combustível: <b>{props.fuelAbb}</b> </td>
 				</tr>
 			</table>
 		</div>
