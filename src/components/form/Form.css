@@ -10,7 +10,7 @@
 	height: 55%;
 	color: white
 }
-#name,#age,#civilStatus,#docType, #document { 
+#carType, #carBrand,#carModel, #carYear{ 
 	width: 100%;
   clear: both;
 }
