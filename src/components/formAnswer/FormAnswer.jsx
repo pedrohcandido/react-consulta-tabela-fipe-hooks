@@ -1,4 +1,3 @@
-import React from "react";
 import './FormAnswer.css';
 
 const FormAnswer = (props) => {

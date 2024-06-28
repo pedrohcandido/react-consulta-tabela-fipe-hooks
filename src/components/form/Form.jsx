@@ -1,95 +1,85 @@
-import React from "react";
+import React, { useState } from "react";
 import './Form.css'
 import FormAnswer from '../formAnswer'
 
-class Form extends React.Component {
+export default function Form() {
+	const [carType, setCarType] = useState("")
+	const [carBrandList, setCarBrandList] = useState([])
+	const [carBrandSelected, setCarBrandSelected] = useState(0)
+	const [carModelList, setCarModelList] = useState([])
+	const [carModelSelected, setCarModelSelected] = useState(0)
+	const [carYearList, setCarYearList] = useState([])
+	const [carYearSelected, setCarYearSelected] = useState("")
+	const [typeCar, setTypeCar] = useState("")
+	const [amount, setAmount] = useState("")
+	const [brand, setBrand] = useState("")
+	const [model, setModel] = useState("")
+	const [yearModel, setYearModel] = useState("")
+	const [fuel, setFuel] = useState("")
+	const [codFipe, setCodFipe] = useState("")
+	const [refMonth, setRefMonth] = useState("")
+	const [fuelAbb, setFuelAbb] = useState("")
 
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			carType: "",
-
-			carBrandList: [],
-			carBrandSelected: 0,
-
-			carModelList: [],
-			carModelSelected: 0,
-
-			carYearList: [],
-			carYearSelected: "",
-
-			typeCar: "",
-			amount: "",
-			brand: "",
-			model: "",
-			yearModel: "",
-			fuel: "",
-			codFipe: "",
-			refMonth: "",
-			fuelAbb: "",
-
-		}
-	}
-
-	handleChange = (event) => {
-		this.setState({
-			isError: false,
-			isSend: false,
-			document: event.target.value
-		})
-	}
-
-	handleCarBrand = (event) => {
-		fetch(`https://parallelum.com.br/fipe/api/v1/${this.state.carType}/marcas`)
+const handleCarBrand = (event) => {
+	fetch(`https://parallelum.com.br/fipe/api/v1/${carType}/marcas`)
 			.then((res) => res.json())
 			.then((list) => {
-				this.setState({carBrandList: list})
+				console.log(list)
+				setCarBrandList(list)
 			})
 	}
 
-	handleCarModel = (event) => {
-		fetch(`https://parallelum.com.br/fipe/api/v1/${this.state.carType}/marcas/${this.state.carBrandSelected}/modelos`)
-		.then((res) => res.json())
-			.then((list) => {
-				this.setState({carModelList: list.modelos})
+const handleCarModel = (event) => {
+	fetch(`https://parallelum.com.br/fipe/api/v1/${carType}/marcas/${carBrandSelected}/modelos`)
+			.then((res) => res.json())
+				.then((list) => {
+				setCarModelList(list.modelos)
 			})
 	}
 
-	handleCarYear = (event) => {
-		fetch(`https://parallelum.com.br/fipe/api/v1/${this.state.carType}/marcas/${this.state.carBrandSelected}/modelos/${this.state.carModelSelected}/anos`)
-		.then((res) => res.json())
-			.then((list) => {
-				this.setState({carYearList: list})
-			})
+const handleCarYear = (event) => {
+	fetch(`https://parallelum.com.br/fipe/api/v1/${carType}/marcas/${carBrandSelected}/modelos/${carModelSelected}/anos`)
+			.then((res) => res.json())
+				.then((list) => {
+					setCarYearList(list)
+				})
 	}
 
-	handleSubmit = (event) => {
+const handleSubmit = (event) => {
 		event.preventDefault();
-		this.setState({ isSend: true })
 
-		fetch(`https://parallelum.com.br/fipe/api/v1/${this.state.carType}/marcas/${this.state.carBrandSelected}/modelos/${this.state.carModelSelected}/anos/${this.state.carYearSelected}`)
-		.then((res) => res.json())
-			.then((list) => {
-				this.setState({typeCar: list.TipoVeiculo,amount: list.Valor,brand: list.Marca, 
-											model: list.Modelo,yearModel: list.AnoModelo, fuel: list.Combustivel, 
-											codFipe: list.CodigoFipe, refMonth: list.MesReferencia, fuelAbb: list.SiglaCombustivel
-										})
-			})
-			this.setState({carType: "", carBrandList: [], carBrandSelected: 0, carModelList: [], carModelSelected: 0, carYearList: [], carYearSelected: "",})
+		fetch(`https://parallelum.com.br/fipe/api/v1/${carType}/marcas/${carBrandSelected}/modelos/${carModelSelected}/anos/${carYearSelected}`)
+			.then((res) => res.json())
+				.then((list) => {
+					setTypeCar(list.TipoVeiculo)
+					setAmount(list.Valor)
+					setBrand(list.Marca)
+					setModel(list.Modelo)
+					setYearModel(list.AnoModelo)
+					setFuel(list.Combustivel)
+					setCodFipe(list.CodigoFipe)
+					setRefMonth(list.MesReferencia)
+					setFuelAbb(list.SiglaCombustivel)
+				})
+			setCarType("")
+			setCarBrandList([])
+			setCarBrandSelected(0)
+			setCarModelList([])
+			setCarModelSelected(0)
+			setCarYearList([])
+			setCarYearSelected("")
+
 		document.getElementById("myForm").reset()
 	};
-
-	render() {
 		return (
 			<>
 			<div className="app">
-				<form id="myForm" onSubmit={this.handleSubmit.bind(this)}>
+				<form id="myForm" onSubmit={handleSubmit}>
 					
 				<label for="carType">Escolha o Tipo do Veículo</label>
 						<select name="carType" 
 										id="carType"
-										onChange={(event) => this.setState({ carType: event.target.value})}
+										onChange={(event) => setCarType(event.target.value)}
 										required
 										>
 							<option selected value="">Selecione uma opção</option>
@@ -102,13 +92,13 @@ class Form extends React.Component {
 					<label for="carBrand">Escolha a Marca do Veículo</label>
 						<select name="carBrand" 
 										id="carBrand"
-										onChange={(event) => this.setState({ carBrandSelected: event.target.value})}
+										onChange={(event) => setCarBrandSelected(event.target.value)}
 										required
-										disabled={this.state.carType === "" ? true : false }
-										onClick={this.handleCarBrand}
+										disabled={carType === "" ? true : false }
+										onClick={handleCarBrand}
 										>
 							<option selected value="">Selecione uma opção</option>
-							{this.state.carBrandList.map( (brand) => (
+							{carBrandList.map( (brand) => (
 								<option key={brand.codigo} value={brand.codigo}>{brand.nome}</option>
 							))}
 					</select>
@@ -117,13 +107,13 @@ class Form extends React.Component {
 					<label for="carModel">Escolha o Modelo do Veículo</label>
 						<select name="carModel" 
 										id="carModel"
-										onChange={(event) => this.setState({ carModelSelected: event.target.value})}
+										onChange={(event) => setCarModelSelected(event.target.value)}
 										required
-										disabled={this.state.carBrandSelected === 0 || this.state.carType === "" ? true : false }
-										onClick={this.handleCarModel}
+										disabled={carBrandSelected === 0 || carType === "" ? true : false }
+										onClick={handleCarModel}
 										>
 							<option selected value="">Selecione uma opção</option>
-							{this.state.carModelList.map( (carModel) => (
+							{carModelList.map( (carModel) => (
 								<option key={carModel.codigo} value={carModel.codigo}>{carModel.nome}</option>
 							))}
 					</select>
@@ -133,13 +123,13 @@ class Form extends React.Component {
 					<label for="carYear">Escolha o Ano do Veículo</label>
 						<select name="carYear" 
 										id="carYear"
-										onChange={(event) => this.setState({ carYearSelected: event.target.value})}
+										onChange={(event) => setCarYearSelected(event.target.value)}
 										required
-										disabled={this.state.carBrandSelected === 0 || this.state.carModelSelected === 0 || this.state.carType === "" ? true : false }
-										onClick={this.handleCarYear}
+										disabled={carBrandSelected === 0 || carModelSelected === 0 || carType === "" ? true : false }
+										onClick={handleCarYear}
 										>
 							<option selected value="">Selecione uma opção</option>
-							{this.state.carYearList.map( (carYear) => (
+							{carYearList.map( (carYear) => (
 								<option key={carYear.codigo} value={carYear.codigo}>{carYear.nome}</option>
 							))}
 					</select>
@@ -150,21 +140,17 @@ class Form extends React.Component {
 
 			</div>
 			<FormAnswer 
-									typeCar={this.state.typeCar}
-									amount={this.state.amount}
-									brand={this.state.brand}
-									model={this.state.model}
-									yearModel={this.state.yearModel}
-									fuel={this.state.fuel}
-									codFipe={this.state.codFipe}
-									refMonth={this.state.refMonth}
-									fuelAbb={this.state.fuelAbb}
+									typeCar={typeCar}
+									amount={amount}
+									brand={brand}
+									model={model}
+									yearModel={yearModel}
+									fuel={fuel}
+									codFipe={codFipe}
+									refMonth={refMonth}
+									fuelAbb={fuelAbb}
 									>
 			</FormAnswer>
 			</>
 		)
-	}
-
 }
-
-export default Form;
